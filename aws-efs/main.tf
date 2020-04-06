@@ -144,6 +144,19 @@ resource "aws_route53_record" "this" {
   }
 }
 
+resource "aws_efs_file_system" "this" {
+  tags = {
+    Name = local.identifier
+  }
+}
+
+resource "aws_efs_mount_target" "this" {
+  for_each        = data.aws_subnet_ids.this.ids
+  file_system_id  = aws_efs_file_system.this.id
+  security_groups = [aws_security_group.this.id]
+  subnet_id       = each.key
+}
+
 resource "aws_launch_template" "this" {
   image_id               = data.aws_ami.this.id
   instance_type          = "t3.micro"
