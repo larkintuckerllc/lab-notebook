@@ -14,24 +14,15 @@
 
 **Subnet Route Table (RT)**
 
-| Destination   | Target |
-| ------------- | ------ |
-| 172.31.0.0/16 | local  |
-| 0.0.0.0/0     | IGW    |
+Default
 
 **Subnet Network Access Control List (NACL) Inbound**
 
-| Rule # | Type | Protocol | Port Range | Source    | Allow / Deny |
-| ------ | ---- | -------- | ---------- | --------- | ------------ |
-| 100    | ALL  | ALL      | ALL        | 0.0.0.0/0 | ALLOW        |
-| *      | ALL  | ALL      | ALL        | 0.0.0.0/0 | DENY         |
+Default
 
 **Subnet Network Access Control List (NACL) Outbound**
 
-| Rule # | Type | Protocol | Port Range | Source    | Allow / Deny |
-| ------ | ---- | -------- | ---------- | --------- | ------------ |
-| 100    | ALL  | ALL      | ALL        | 0.0.0.0/0 | ALLOW        |
-| *      | ALL  | ALL      | ALL        | 0.0.0.0/0 | DENY         |
+Default
 
 **Security Group (SG) Inbound**
 
@@ -47,3 +38,14 @@
 | Type  | Protocol | Port Range | Destination |
 | ----- | -------- | ---------- | ----------- |
 | ALL   | ALL      | ALL        | 0.0.0.0/0   |
+
+**Target Group (TG)**
+
+Protocol: HTTP
+
+**Elastic Load Balancer (ELB) Listeners**
+
+| Listener | Rules                                               |
+| -------- | --------------------------------------------------- |
+| HTTP     | redirecting to HTTPS://#{host}:443/#{path}?#{query} |
+| HTTPS    | forwarding to TG                                    |
