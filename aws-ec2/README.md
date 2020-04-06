@@ -10,10 +10,10 @@
 
 ## Variables
 
-- *domain*: Domain name, e.g., *aws-ec2.todosrus.com*, for certificate and ELB  
-- *key_name*: EC2 key pair name
-- *vpc_id*: VPC id for resources; assume all subnets are public
-- *zone_name*: Zone name, .e.g., *todosrus.com.", to create domain name
+- *domain*: Domain name, e.g., *aws-ec2.todosrus.com*, for certificate (assume exists) and ELB  
+- *key_name*: EC2 key pair name (assume exists)
+- *vpc_id*: Default VPC id (assume exists)
+- *zone_name*: Zone name, .e.g., *todosrus.com.", to create domain name (assume exists)
 
 ## Resources
 
