@@ -4,25 +4,18 @@
 
 [Amazon EC2](https://aws.amazon.com/ec2/)
 
+## Network Diagram
+
 ![Network Diagram](aws-ec2.png)
 
-**Zone**
+## Variables
 
-| Name                  | Type | Value     |
-| --------------------- | ---- | --------- |
-| aws-ec2.todosrus.com. | A    | ALIAS ELB |
+- *domain*: Domain name, e.g., *aws-ec2.todosrus.com*, for certificate and ELB  
+- *key_name*: EC2 key pair name
+- *vpc_id*: VPC id for resources; assume all subnets are public
+- *zone_name*: Zone name, .e.g., *todosrus.com.", to create domain name
 
-**Subnet Route Table (RT)**
-
-Default
-
-**Subnet Network Access Control List (NACL) Inbound**
-
-Default
-
-**Subnet Network Access Control List (NACL) Outbound**
-
-Default
+## Resources
 
 **Security Group (SG) Inbound**
 
@@ -49,3 +42,18 @@ Protocol: HTTP
 | -------- | --------------------------------------------------- |
 | HTTP     | redirecting to HTTPS://#{host}:443/#{path}?#{query} |
 | HTTPS    | forwarding to TG                                    |
+
+**Zone Records**
+
+| Name                  | Type | Value     |
+| --------------------- | ---- | --------- |
+| aws-ec2.todosrus.com. | A    | ALIAS ELB |
+
+**Launch Template (LT)**
+
+AMI: Amazon Linux 2 AMI (HVM), SSD Volume Type
+
+**Auto Scaling Group**
+
+Launch Template: LT
+Target Group: TG

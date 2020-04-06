@@ -2,6 +2,10 @@ provider "aws" {
   region = "us-east-1"
 }
 
+locals {
+  identifier = "aws-ec2"
+}
+
 data "aws_subnet_ids" "this" {
   vpc_id = var.vpc_id
 }
@@ -35,7 +39,7 @@ data "aws_ami" "this" {
 }
 
 resource "aws_security_group" "this" {
-  name   = "aws-ec2"
+  name   = local.identifier
   vpc_id = var.vpc_id
 }
 
@@ -84,23 +88,23 @@ resource "aws_security_group_rule" "this_egress" {
   type        = "egress"
 }
 
-resource "aws_lb" "this" {
-  internal           = false
-  load_balancer_type = "application"
-  name               = "aws-ec2"
-  security_groups    = [aws_security_group.this.id]
-  subnets            = data.aws_subnet_ids.this.ids
-}
-
 resource "aws_lb_target_group" "this" {
   health_check {
     path = "/" 
   }
-  name        = "aws-ec2"
+  name        = local.identifier
   port        = 80
   protocol    = "HTTP"
   target_type = "instance"
   vpc_id      = var.vpc_id
+}
+
+resource "aws_lb" "this" {
+  internal           = false
+  load_balancer_type = "application"
+  name               = local.identifier
+  security_groups    = [aws_security_group.this.id]
+  subnets            = data.aws_subnet_ids.this.ids
 }
 
 resource "aws_lb_listener" "https" {
@@ -145,7 +149,7 @@ resource "aws_launch_template" "this" {
   instance_type          = "t3.micro"
   user_data              = filebase64("user-data.sh")
   key_name               = var.key_name
-  name                   = "aws-ec2"
+  name                   = local.identifier
   vpc_security_group_ids = [aws_security_group.this.id]
 }
 
@@ -157,7 +161,7 @@ resource "aws_autoscaling_group" "this" {
   }
   max_size            = 1
   min_size            = 1
-  name_prefix         = "aws-ec2-${aws_launch_template.this.latest_version}-"
+  name_prefix         = "${local.identifier}-${aws_launch_template.this.latest_version}-"
   target_group_arns   = [aws_lb_target_group.this.arn]
   vpc_zone_identifier = data.aws_subnet_ids.this.ids
 }
