@@ -11,11 +11,11 @@ data "aws_subnet_ids" "this" {
 }
 
 data "aws_acm_certificate" "this" {
-  domain  = var.domain
+  domain  = var.certificate
 }
 
 data "aws_route53_zone" "this" {
-  name = var.zone_name
+  name = "${var.zone_name}."
 }
 
 data "aws_ami" "this" {
@@ -135,7 +135,7 @@ resource "aws_lb_listener" "http" {
 
 resource "aws_route53_record" "this" {
   zone_id = data.aws_route53_zone.this.id
-  name    = var.domain
+  name    = "${local.identifier}.${var.zone_name}"
   type    = "A"
   alias {
     name                   = aws_lb.this.dns_name

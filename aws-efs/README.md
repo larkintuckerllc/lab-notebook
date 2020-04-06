@@ -1,10 +1,8 @@
-# AWS Elastic File System (EFS)
+# AWS Elastic Cloud Compute (EC2)
 
-> Amazon EFS provides file storage for your Amazon EC2 instances. With Amazon EFS, you can create a file system, mount the file system on your EC2 instances, and then read and write data from your EC2 instances to and from your file system.
+> Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides secure, resizable compute capacity in the cloud. It is designed to make web-scale cloud computing easier for developers. Amazon EC2’s simple web service interface allows you to obtain and configure capacity with minimal friction. It provides you with complete control of your computing resources and lets you run on Amazon’s proven computing environment.
 
-[Amazon Elastic File System (EFS)](https://aws.amazon.com/efs/)
-
-# TODO FIX
+[Amazon EC2](https://aws.amazon.com/ec2/)
 
 ## Network Diagram
 
@@ -12,10 +10,10 @@
 
 ## Variables
 
-- *domain*: Domain name, e.g., *aws-ec2.todosrus.com*, for certificate (assume exists) and ELB  
+- *certificate*: Wildcard certificate, e.g., **.todosrus.com*, of certificate (assume exists) for ELB  
 - *key_name*: EC2 key pair name (assume exists)
 - *vpc_id*: Default VPC id (assume exists)
-- *zone_name*: Zone name, .e.g., *todosrus.com.", to create domain name (assume exists)
+- *zone_name*: Zone name, .e.g., *todosrus.com", to create domain name (assume exists)
 
 ## Resources
 

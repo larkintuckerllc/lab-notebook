@@ -10,10 +10,10 @@
 
 ## Variables
 
-- *domain*: Domain name, e.g., *aws-ec2.todosrus.com*, for certificate (assume exists) and ELB  
+- *certificate*: Wildcard certificate, e.g., **.todosrus.com*, of certificate (assume exists) for ELB  
 - *key_name*: EC2 key pair name (assume exists)
 - *vpc_id*: Default VPC id (assume exists)
-- *zone_name*: Zone name, .e.g., *todosrus.com.", to create domain name (assume exists)
+- *zone_name*: Zone name, .e.g., *todosrus.com", to create domain name (assume exists)
 
 ## Resources
 
