@@ -49,6 +49,8 @@ Protocol: HTTP
 | --------------------- | ---- | --------- |
 | aws-ec2.todosrus.com. | A    | ALIAS ELB |
 
+**Elastic File System (EFS)**
+
 **Launch Template (LT)**
 
 AMI: Amazon Linux 2 AMI (HVM), SSD Volume Type
