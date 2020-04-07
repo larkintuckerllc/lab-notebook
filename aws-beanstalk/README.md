@@ -1,30 +1,34 @@
-# AWS Elastic Cloud Compute (EC2)
+# AWS Elastic Beanstalk 
 
-> Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides secure, resizable compute capacity in the cloud. It is designed to make web-scale cloud computing easier for developers. Amazon EC2’s simple web service interface allows you to obtain and configure capacity with minimal friction. It provides you with complete control of your computing resources and lets you run on Amazon’s proven computing environment.
+> AWS Elastic Beanstalk is an easy-to-use service for deploying and scaling web applications and services developed with Java, .NET, PHP, Node.js, Python, Ruby, Go, and Docker on familiar servers such as Apache, Nginx, Passenger, and IIS.
 
-[Amazon EC2](https://aws.amazon.com/ec2/)
+> You can simply upload your code and Elastic Beanstalk automatically handles the deployment, from capacity provisioning, load balancing, auto-scaling to application health monitoring. At the same time, you retain full control over the AWS resources powering your application and can access the underlying resources at any time.
+
+[Amazon Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/)
 
 ## Network Diagram
 
-![Network Diagram](aws-ec2.png)
+![Network Diagram](aws-beanstalk.png)
 
-## Variables
+## Resources (Managed by Elastic Beanstalk)
 
-- *certificate*: Wildcard certificate, e.g., **.todosrus.com*, of certificate (assume exists) for ELB  
-- *key_name*: EC2 key pair name (assume exists)
-- *vpc_id*: Default VPC id (assume exists)
-- *zone_name*: Zone name, .e.g., *todosrus.com", to create domain name (assume exists)
+**Identity Access Management (IAM) Role**
 
-## Resources
+aws-elasticbeanstalk-service-role
+
+aws-elasticbeanstalk-ec2-role
+
+**Simple Storage Service (S3) Bucket**
+
+elasticbeanstalk-us-east-1-143287522423
+
+**Elastic IP**
 
 **Security Group (SG) Inbound**
 
 | Type  | Protocol | Port Range | Source    |
 | ----- | -------- | ---------- | --------- |
 | HTTP  | TCP      | 80         | 0.0.0.0/0 |
-| ALL   | ALL      | ALL        | SG        |
-| SSH   | TCP      | 22         | 0.0.0.0/0 |
-| HTTPS | TCP      | 443        | 0.0.0.0/0 |
 
 **Security Group (SG) Outbound**
 
@@ -32,29 +36,4 @@
 | ----- | -------- | ---------- | ----------- |
 | ALL   | ALL      | ALL        | 0.0.0.0/0   |
 
-**Target Group (TG)**
-
-Protocol: HTTP
-
-**Elastic Load Balancer (ELB) Listeners**
-
-| Listener | Rules                                               |
-| -------- | --------------------------------------------------- |
-| HTTP     | redirecting to HTTPS://#{host}:443/#{path}?#{query} |
-| HTTPS    | forwarding to TG                                    |
-
-**Zone Records**
-
-| Name                  | Type | Value     |
-| --------------------- | ---- | --------- |
-| aws-ec2.todosrus.com. | A    | ALIAS ELB |
-
-**Launch Template (LT)**
-
-AMI: Amazon Linux 2 AMI (HVM), SSD Volume Type
-
-**Auto Scaling Group**
-
-Launch Template: LT
-
-Target Group: TG
+**Elastic Cloud Compute (EC2)**
