@@ -58,4 +58,5 @@ AMI: Amazon Linux 2 AMI (HVM), SSD Volume Type
 **Auto Scaling Group**
 
 Launch Template: LT
+
 Target Group: TG
