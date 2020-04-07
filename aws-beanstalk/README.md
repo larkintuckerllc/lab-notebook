@@ -37,3 +37,21 @@ elasticbeanstalk-us-east-1-143287522423
 | ALL   | ALL      | ALL        | 0.0.0.0/0   |
 
 **Elastic Cloud Compute (EC2)**
+
+## Code (Python 3.6.8)
+
+Steps to create *code.zip* to upload to Elastic Beanstalk.
+
+1. Initialize pipenv: `pipenv --python 3.6.8`
+
+2. Install Flask: `pipenv install Flask`
+
+3. Create *application.py*; Elastic Beanstalk expects variable *application*, not *app*
+
+4. Run locally: `export FLASK_APP=application.py`
+
+5. Run locally: `pipenv run flask run`
+
+6. Create *requirements.txt* file: `pipenv run pip freeze > requirements.txt`
+
+7. Create *code.zip*: `zip code requirements.txt application.py`
