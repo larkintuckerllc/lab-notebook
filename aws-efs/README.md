@@ -1,12 +1,12 @@
-# AWS Elastic Cloud Compute (EC2)
+# AWS Elastic File System (EFS)
 
-> Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides secure, resizable compute capacity in the cloud. It is designed to make web-scale cloud computing easier for developers. Amazon EC2’s simple web service interface allows you to obtain and configure capacity with minimal friction. It provides you with complete control of your computing resources and lets you run on Amazon’s proven computing environment.
+> Amazon Elastic File System (Amazon EFS) provides a simple, scalable, fully managed elastic NFS file system for use with AWS Cloud services and on-premises resources. It is built to scale on demand to petabytes without disrupting applications, growing and shrinking automatically as you add and remove files, eliminating the need to provision and manage capacity to accommodate growth.
 
-[Amazon EC2](https://aws.amazon.com/ec2/)
+[Amazon Elastic File System (EFS)](https://aws.amazon.com/efs/)
 
 ## Network Diagram
 
-![Network Diagram](aws-ec2.png)
+![Network Diagram](aws-efs.png)
 
 ## Variables
 
