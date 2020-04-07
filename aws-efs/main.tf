@@ -160,7 +160,19 @@ resource "aws_efs_mount_target" "this" {
 resource "aws_launch_template" "this" {
   image_id               = data.aws_ami.this.id
   instance_type          = "t3.micro"
-  user_data              = filebase64("user-data.sh")
+  user_data              = base64encode(<<EOF
+#!/bin/sh
+sudo yum update -y
+sudo yum install -y amazon-efs-utils
+sudo yum install -y httpd
+sudo tee -a /etc/fstab > /dev/null <<EOT
+${aws_efs_file_system.this.id}:/ /var/www/html efs _netdev,tls 0 0
+EOT
+sudo mount -a -t efs defaults
+sudo systemctl start httpd
+sudo systemctl enable httpd
+EOF
+  )
   key_name               = var.key_name
   name                   = local.identifier
   vpc_security_group_ids = [aws_security_group.this.id]
