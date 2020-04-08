@@ -3,5 +3,5 @@ output "ec2_instance_public_dns" {
 }
 
 output "redis_primary_endpoint_address" {
-  value = aws_elasticache_replication_group.example.primary_endpoint_address
+  value = aws_elasticache_replication_group.this.primary_endpoint_address
 }

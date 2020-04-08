@@ -99,7 +99,7 @@ resource "aws_elasticache_subnet_group" "this" {
   subnet_ids = data.aws_subnet_ids.this.ids
 }
 
-resource "aws_elasticache_replication_group" "example" {
+resource "aws_elasticache_replication_group" "this" {
   automatic_failover_enabled    = true
   engine                        = "redis"
   engine_version                = "5.0.6"
