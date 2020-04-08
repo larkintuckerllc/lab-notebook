@@ -51,4 +51,4 @@ AMI: Amazon Linux 2 AMI (HVM), SSD Volume Type
 
 ## Command
 
-`redis-cli -c -h XXXXX -p 6379`
+`pgcli -h XXXXX -p 5432 -u postgres`
