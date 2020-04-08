@@ -1,60 +1,50 @@
-# AWS Elastic Cloud Compute (EC2)
+# Amazon ElastiCache 
 
-> Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides secure, resizable compute capacity in the cloud. It is designed to make web-scale cloud computing easier for developers. Amazon EC2’s simple web service interface allows you to obtain and configure capacity with minimal friction. It provides you with complete control of your computing resources and lets you run on Amazon’s proven computing environment.
+> Fully managed in-memory data store, compatible with Redis or Memcached. Power real-time applications with sub-millisecond latency.
 
-[Amazon EC2](https://aws.amazon.com/ec2/)
+[Amazon ElastiCache](https://aws.amazon.com/elasticache/)
 
 ## Network Diagram
 
-![Network Diagram](aws-ec2.png)
+![Network Diagram](aws-elasticache.png)
 
 ## Variables
 
-- *certificate*: Wildcard certificate, e.g., **.todosrus.com*, of certificate (assume exists) for ELB  
 - *key_name*: EC2 key pair name (assume exists)
 - *vpc_id*: Default VPC id (assume exists)
-- *zone_name*: Zone name, .e.g., *todosrus.com", to create domain name (assume exists)
 
 ## Resources
 
-**Security Group (SG) Inbound**
+**Security Group (SG EC2) Inbound**
 
 | Type  | Protocol | Port Range | Source    |
 | ----- | -------- | ---------- | --------- |
-| HTTP  | TCP      | 80         | 0.0.0.0/0 |
-| ALL   | ALL      | ALL        | SG        |
+| ALL   | ALL      | ALL        | SG EC2    |
 | SSH   | TCP      | 22         | 0.0.0.0/0 |
-| HTTPS | TCP      | 443        | 0.0.0.0/0 |
 
-**Security Group (SG) Outbound**
+**Security Group (SG EC2) Outbound**
 
 | Type  | Protocol | Port Range | Destination |
 | ----- | -------- | ---------- | ----------- |
 | ALL   | ALL      | ALL        | 0.0.0.0/0   |
 
-**Target Group (TG)**
+**Security Group (SG EC) Inbound**
 
-Protocol: HTTP
+| Type  | Protocol | Port Range | Source |
+| ----- | -------- | ---------- | ------ |
+| ALL   | ALL      | ALL        | SG EC  |
+| CTM   | TCP      | 6379       | SG EC2 |
 
-**Elastic Load Balancer (ELB) Listeners**
+**Security Group (SG EC) Outbound**
 
-| Listener | Rules                                               |
-| -------- | --------------------------------------------------- |
-| HTTP     | redirecting to HTTPS://#{host}:443/#{path}?#{query} |
-| HTTPS    | forwarding to TG                                    |
+| Type  | Protocol | Port Range | Destination |
+| ----- | -------- | ---------- | ----------- |
+| ALL   | ALL      | ALL        | 0.0.0.0/0   |
 
-**Zone Records**
+**ElastiCache**
 
-| Name                  | Type | Value     |
-| --------------------- | ---- | --------- |
-| aws-ec2.todosrus.com. | A    | ALIAS ELB |
+Engine: Redis
 
-**Launch Template (LT)**
+**Elastic Cloud Compute (EC2)**
 
 AMI: Amazon Linux 2 AMI (HVM), SSD Volume Type
-
-**Auto Scaling Group**
-
-Launch Template: LT
-
-Target Group: TG
