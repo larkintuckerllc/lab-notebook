@@ -1,0 +1,4 @@
+key_name = "ubuntu_laptop"
+password = "postgres"
+username = "postgres
+vpc_id = "vpc-08e20e0aecdf43626"
