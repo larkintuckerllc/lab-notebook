@@ -1,12 +1,12 @@
-# Amazon ElastiCache 
+# Amazon Relational Database Service (RDS) Server
 
-> Fully managed in-memory data store, compatible with Redis or Memcached. Power real-time applications with sub-millisecond latency.
+> Amazon Relational Database Service (Amazon RDS) makes it easy to set up, operate, and scale a relational database in the cloud. It provides cost-efficient and resizable capacity while automating time-consuming administration tasks such as hardware provisioning, database setup, patching and backups. It frees you to focus on your applications so you can give them the fast performance, high availability, security and compatibility they need.
 
-[Amazon ElastiCache](https://aws.amazon.com/elasticache/)
+[Amazon Relational Database Service (RDS)](https://aws.amazon.com/rds/)
 
 ## Network Diagram
 
-![Network Diagram](aws-elasticache.png)
+![Network Diagram](aws-rds-server.png)
 
 ## Variables
 
@@ -28,22 +28,22 @@
 | ----- | -------- | ---------- | ----------- |
 | ALL   | ALL      | ALL        | 0.0.0.0/0   |
 
-**Security Group (SG EC) Inbound**
+**Security Group (SG RDS) Inbound**
 
 | Type  | Protocol | Port Range | Source |
 | ----- | -------- | ---------- | ------ |
-| ALL   | ALL      | ALL        | SG EC  |
-| CTM   | TCP      | 6379       | SG EC2 |
+| ALL   | ALL      | ALL        | SG RDS |
+| CTM   | TCP      | 5432       | SG EC2 |
 
-**Security Group (SG EC) Outbound**
+**Security Group (SG RDS) Outbound**
 
 | Type  | Protocol | Port Range | Destination |
 | ----- | -------- | ---------- | ----------- |
 | ALL   | ALL      | ALL        | 0.0.0.0/0   |
 
-**ElastiCache**
+**RDS**
 
-Engine: Redis
+Engine: postgres
 
 **Elastic Cloud Compute (EC2)**
 
