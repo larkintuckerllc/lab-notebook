@@ -48,3 +48,7 @@ Engine: Redis
 **Elastic Cloud Compute (EC2)**
 
 AMI: Amazon Linux 2 AMI (HVM), SSD Volume Type
+
+## Command
+
+`redis-cli -c -h XXXXX -p 6379`
