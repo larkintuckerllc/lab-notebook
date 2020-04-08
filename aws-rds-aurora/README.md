@@ -1,12 +1,12 @@
 # Amazon Relational Database Service (RDS) Server
 
-> Amazon Relational Database Service (Amazon RDS) makes it easy to set up, operate, and scale a relational database in the cloud. It provides cost-efficient and resizable capacity while automating time-consuming administration tasks such as hardware provisioning, database setup, patching and backups. It frees you to focus on your applications so you can give them the fast performance, high availability, security and compatibility they need.
+> Amazon Aurora is a MySQL and PostgreSQL-compatible relational database built for the cloud, that combines the performance and availability of traditional enterprise databases with the simplicity and cost-effectiveness of open source databases.
 
-[Amazon Relational Database Service (RDS)](https://aws.amazon.com/rds/)
+[Amazon Aurora](https://aws.amazon.com/rds/aurora/)
 
 ## Network Diagram
 
-![Network Diagram](aws-rds-server.png)
+![Network Diagram](aws-rds-aurora.png)
 
 ## Variables
 
@@ -41,9 +41,13 @@
 | ----- | -------- | ---------- | ----------- |
 | ALL   | ALL      | ALL        | 0.0.0.0/0   |
 
-**RDS**
+**RDS Cluster**
 
 Engine: postgres
+
+**RDS Cluster Instance**
+
+Count: 2
 
 **Elastic Cloud Compute (EC2)**
 
