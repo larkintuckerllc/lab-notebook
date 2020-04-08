@@ -107,7 +107,7 @@ resource "aws_rds_cluster" "this" {
   db_subnet_group_name            = aws_db_subnet_group.this.name 
   db_cluster_parameter_group_name = "default.aurora-postgresql10"
   engine                          = "aurora-postgresql"
-  # engine_version
+  engine_version                  = "10.7"
   master_username                 = var.username
   master_password                 = var.password
   port                            = 5432
@@ -121,7 +121,7 @@ resource "aws_rds_cluster_instance" "this" {
   db_parameter_group_name      = "default.aurora-postgresql10"
   db_subnet_group_name         = aws_db_subnet_group.this.name 
   engine                       = "aurora-postgresql"
-  # engine_version
+  engine_version               = "10.7"
   identifier                   = "aurora-cluster-demo-${count.index}"
   instance_class               = "db.t3.medium"
   performance_insights_enabled = true
