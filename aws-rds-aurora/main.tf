@@ -94,31 +94,38 @@ resource "aws_security_group_rule" "rds_egress" {
   type        = "egress"
 }
 
-/*
 resource "aws_db_subnet_group" "this" {
   name       = local.identifier
   subnet_ids = data.aws_subnet_ids.this.ids
 }
 
-resource "aws_db_instance" "this" {
-  allocated_storage            = 20
-  backup_retention_period      = 7
-  copy_tags_to_snapshot        = true
-  db_subnet_group_name         = aws_db_subnet_group.this.name
-  engine                       = "postgres"
-  engine_version               = "11.6"
-  instance_class               = "db.t2.micro"
-  max_allocated_storage        = 1000
-  name                         = "hellords"
-  parameter_group_name         = "default.postgres11"
-  password                     = var.password
-  performance_insights_enabled = true
-  port                         = 5432
-  storage_type                 = "gp2"
-  username                     = var.username
-  vpc_security_group_ids       = [aws_security_group.rds.id]
+resource "aws_rds_cluster" "this" {
+  backup_retention_period         = 7
+  copy_tags_to_snapshot           = true
+  cluster_identifier              = local.identifier
+  database_name                   = "hellords"
+  db_subnet_group_name            = aws_db_subnet_group.this.name 
+  db_cluster_parameter_group_name = "default.aurora-postgresql10"
+  engine                          = "aurora-postgresql"
+  # engine_version
+  master_username                 = var.username
+  master_password                 = var.password
+  port                            = 5432
+  skip_final_snapshot             = true
+  vpc_security_group_ids          = [aws_security_group.rds.id]
 }
-*/
+
+resource "aws_rds_cluster_instance" "this" {
+  cluster_identifier           = aws_rds_cluster.this.id
+  count                        = 2
+  db_parameter_group_name      = "default.aurora-postgresql10"
+  db_subnet_group_name         = aws_db_subnet_group.this.name 
+  engine                       = "aurora-postgresql"
+  # engine_version
+  identifier                   = "aurora-cluster-demo-${count.index}"
+  instance_class               = "db.t3.medium"
+  performance_insights_enabled = true
+}
 
 resource "aws_instance" "this" {
   ami                    = data.aws_ami.this.id

@@ -113,6 +113,7 @@ resource "aws_db_instance" "this" {
   password                     = var.password
   performance_insights_enabled = true
   port                         = 5432
+  skip_final_snapshot          = true
   storage_type                 = "gp2"
   username                     = var.username
   vpc_security_group_ids       = [aws_security_group.rds.id]
