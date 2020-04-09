@@ -30,6 +30,12 @@ resource "aws_iam_role" "this" {
 EOF
   name               = local.identifier
 }
+
+resource "aws_iam_role_policy_attachment" "this" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+  role       = aws_iam_role.this.id
+}
+
 resource "aws_iam_role_policy" "this_sqs_write_queue" {
     name   = "SQSWriteQueue"
     policy = <<EOF
