@@ -6,6 +6,10 @@ locals {
   identifier = "aws-sqs-lambda-sns"
 }
 
+resource "aws_sns_topic" "this" {
+  name = local.identifier 
+}
+
 resource "aws_sqs_queue" "this" {
   name                        = "${local.identifier}.fifo"
   fifo_queue                  = true
@@ -58,7 +62,31 @@ EOF
     role   = aws_iam_role.this.id
 }
 
+
+resource "aws_iam_role_policy" "this_sns_publish_topic" {
+    name   = "SNSPublishTopic"
+    policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "sns:Publish",
+            "Resource": "${aws_sns_topic.this.arn}"
+        }
+    ]
+}
+EOF
+    role   = aws_iam_role.this.id
+}
+
 resource "aws_lambda_function" "this" {
+  environment {
+    variables = {
+      APP_TOPIC_ARN = aws_sns_topic.this.arn
+    }
+  }
   filename         = "function.zip"
   function_name    = "SQSLambdaSNS"
   handler          = "lambda_function.lambda_handler"
@@ -69,9 +97,6 @@ resource "aws_lambda_function" "this" {
 resource "aws_lambda_alias" "this" {
   function_name    = aws_lambda_function.this.arn
   function_version = "$LATEST"
-  lifecycle {
-    ignore_changes = [function_version]
-  }
   name             = "development"
 }
 

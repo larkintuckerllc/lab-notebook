@@ -20,3 +20,5 @@ aws sqs send-message \
   --message-body "{ \"id\": \"a\", \"subject\": \"Hello Subject\", \"body\": \"Hello Body\" }" \
   --message-group-id 0
 ```
+
+CREATE SUBS MANUALLY
