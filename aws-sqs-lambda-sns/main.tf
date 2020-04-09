@@ -30,6 +30,27 @@ resource "aws_iam_role" "this" {
 EOF
   name               = local.identifier
 }
+resource "aws_iam_role_policy" "this_sqs_write_queue" {
+    name   = "SQSWriteQueue"
+    policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "sqs:DeleteMessage",
+                "sqs:ReceiveMessage",
+                "sqs:GetQueueAttributes"
+            ],
+            "Resource": "${aws_sqs_queue.this.arn}"
+        }
+    ]
+}
+EOF
+    role   = aws_iam_role.this.id
+}
 
 resource "aws_lambda_function" "this" {
   filename         = "function.zip"
