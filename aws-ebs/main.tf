@@ -54,6 +54,15 @@ resource "aws_security_group_rule" "ec2_ingress_ssh" {
   type        = "ingress"
 }
 
+resource "aws_security_group_rule" "ec2_ingress_html" {
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port   = 80
+  protocol    = "tcp"
+  security_group_id = aws_security_group.ec2.id
+  to_port     = 80
+  type        = "ingress"
+}
+
 resource "aws_security_group_rule" "ec2_egress" {
   cidr_blocks = ["0.0.0.0/0"]
   from_port   = 0
