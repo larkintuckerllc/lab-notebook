@@ -1,0 +1,5 @@
+{
+    "CiphertextBlob": "AQIDAHiZ5FHa8awHvx35tlP/29CLGD3rdjkAKYI/kKgaWhRHggHWx3NLFD1DPXFYvVUdWY4JAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMJkX+ov4sfKP2ftmWAgEQgDsK6oH0P0EQaB5U0t55JgFyXyX0ZDWqyTaP+DV4JCtYCvNrPm7VtEv3saBQVTY9WpFnk6YsfsgQ5eNmoA==",
+    "Plaintext": "3mQInAUpWXS9JQwjh0OH8TMfK8CKVe6ZkjeRahLzlwo=",
+    "KeyId": "arn:aws:kms:us-east-1:143287522423:key/5797f8e4-4c29-479d-b49d-750ab52fe11d"
+}

@@ -83,14 +83,3 @@ aws kms generate-data-key \
   --key-id alias/aws-kms \
   --key-spec AES_256 > \
   data-key.json
-
-
-
-
-
-aws kms decrypt \
-  --ciphertext-blob "AQIDAHiZ5FHa8awHvx35tlP/29CLGD3rdjkAKYI/kKgaWhRHggFha3D0edgg31p1YRC8+nl3AAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMEiRMBbEVRmrXgkCjAgEQgDvmvpdr6PZiKgWXPLHQGMGVQPtAE2baORfLVSoT62vzDtcePAyMVf89AEUbqWtx3gsmUXk1eE1dp4JrmQ==" \
-  --output text \
-  --query Plaintext
-
-
