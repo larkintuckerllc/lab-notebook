@@ -1,4 +1,5 @@
 #!/bin/sh
+set -x -e
 sudo yum update -y
 echo yes | sudo mdadm \
   --create \

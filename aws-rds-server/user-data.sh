@@ -1,4 +1,5 @@
 #!/bin/sh
+set -x -e
 sudo yum update -y
 sudo yum install -y gcc
 sudo yum install -y postgresql-devel
