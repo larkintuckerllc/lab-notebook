@@ -35,12 +35,19 @@
 AMI: Amazon Linux 2 AMI (HVM), SSD Volume Type
 
 EBS: 1GB /dev/sdf
+
 EBS: 1GB /dev/sdg
 
 RAID 0: /dev/sdf, /dev/sdg => /dev/md0
+
 Disk (GB): 2
+
 IOPS / s: 100 x 2 = 200
+
 IOPS Burst / s: 3000 x 2 = 6000
+
 I/O (KiB / IOPS): 256
+
 Throughput (MiB / s): 51
+
 Throughput Burst (MiB / s): 128 x 2 = 256 
