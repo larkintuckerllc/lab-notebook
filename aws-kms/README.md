@@ -83,3 +83,21 @@ aws kms generate-data-key \
   --key-id alias/aws-kms \
   --key-spec AES_256 > \
   data-key.json
+
+echo "3mQInAUpWXS9JQwjh0OH8TMfK8CKVe6ZkjeRahLzlwo=" | openssl base64 -d > plaintext_key_decoded
+
+openssl enc -e -aes256 \
+  -kfile plaintext_key_decoded \
+  -in hello.txt \
+  -out hello-data-key-encrypted.bin
+
+aws kms decrypt \
+  --ciphertext-blob "AQIDAHiZ5FHa8awHvx35tlP/29CLGD3rdjkAKYI/kKgaWhRHggHWx3NLFD1DPXFYvVUdWY4JAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMJkX+ov4sfKP2ftmWAgEQgDsK6oH0P0EQaB5U0t55JgFyXyX0ZDWqyTaP+DV4JCtYCvNrPm7VtEv3saBQVTY9WpFnk6YsfsgQ5eNmoA==" \
+  --query 'Plaintext' \
+  --output text | openssl base64 -d -out plaintext_key_decoded
+
+openssl enc -d -aes256 \
+  -kfile plaintext_key_decoded \
+  -in hello-data-key-encrypted.bin \
+  -out hello-data-key-decrypted.txt
+
