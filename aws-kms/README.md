@@ -20,7 +20,7 @@
 
 **Encryption / Decryption Example**
 
-Excryption
+Encryption
 
 ```
 aws kms encrypt \
