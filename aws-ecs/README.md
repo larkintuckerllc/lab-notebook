@@ -45,3 +45,37 @@ export LOCALHOST=true
 export FLASK_APP=main.py
 pipenv run flask run
 ```
+
+**Publish to Elastic Container Repository**
+
+First, create ECR repository, e.g., with AWS Console.
+
+Login Docker CLI to ECR:
+
+```
+aws ecr get-login-password \
+  --region us-east-1 |\
+docker login \
+  --username AWS \
+  --password-stdin \
+  143287522423.dkr.ecr.us-east-1.amazonaws.com
+```
+
+Build Docker image:
+
+```
+docker build -t aws-ecs .
+```
+
+Tag image for ECR repository:
+
+```
+docker tag aws-ecs:latest 143287522423.dkr.ecr.us-east-1.amazonaws.com/aws-ecs:latest
+```
+
+Push image to ECR repository:
+
+```
+docker push 143287522423.dkr.ecr.us-east-1.amazonaws.com/aws-ecs:latest
+
+```
