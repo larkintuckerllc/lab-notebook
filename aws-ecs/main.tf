@@ -28,3 +28,4 @@ resource "aws_dynamodb_table" "this" {
   read_capacity    = 1 
   write_capacity   = 1
 }
+
