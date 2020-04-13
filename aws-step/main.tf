@@ -26,9 +26,33 @@ EOF
   name               = "${local.identifier}-lambda"
 }
 
-resource "aws_iam_role_policy_attachment" "this" {
+resource "aws_iam_role_policy_attachment" "lambda" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
   role       = aws_iam_role.lambda.id
+}
+
+resource "aws_iam_role" "step" {
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "states.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+  name               = "${local.identifier}-step"
+}
+
+resource "aws_iam_role_policy_attachment" "step" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaRole"
+  role       = aws_iam_role.step.id
 }
 
 resource "aws_lambda_function" "this" {
@@ -45,47 +69,6 @@ resource "aws_lambda_alias" "this" {
   name             = "development"
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
 resource "aws_sfn_state_machine" "this" {
   definition = <<EOF
 {
@@ -94,13 +77,15 @@ resource "aws_sfn_state_machine" "this" {
   "States": {
     "HelloWorld": {
       "Type": "Task",
-      "Resource": "${aws_lambda_function.lambda.arn}",
+      "Parameters": {
+        "greeting.$": "$"
+      },
+      "Resource": "${aws_lambda_function.this.arn}",
       "End": true
     }
   }
 }
 EOF
   name     = local.identifier
-  role_arn = "${aws_iam_role.iam_for_sfn.arn}"
+  role_arn = aws_iam_role.step.arn
 }
-*/
