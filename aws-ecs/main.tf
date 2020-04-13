@@ -17,3 +17,13 @@ data "aws_acm_certificate" "this" {
 data "aws_route53_zone" "this" {
   name = "${var.zone_name}."
 }
+resource "aws_dynamodb_table" "this" {
+  attribute {
+    name = "Id"
+    type = "S"
+  }
+  hash_key         = "Id"
+  name             = "Todos"
+  read_capacity    = 1 
+  write_capacity   = 1
+}
