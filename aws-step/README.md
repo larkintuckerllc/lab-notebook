@@ -1,60 +1,15 @@
 # AWS Elastic Cloud Compute (EC2)
 
-> Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides secure, resizable compute capacity in the cloud. It is designed to make web-scale cloud computing easier for developers. Amazon EC2’s simple web service interface allows you to obtain and configure capacity with minimal friction. It provides you with complete control of your computing resources and lets you run on Amazon’s proven computing environment.
+> AWS Step Functions lets you coordinate multiple AWS services into serverless workflows so you can build and update apps quickly. Using Step Functions, you can design and run workflows that stitch together services, such as AWS Lambda, AWS Fargate, and Amazon SageMaker, into feature-rich applications. Workflows are made up of a series of steps, with the output of one step acting as input into the next. Application development is simpler and more intuitive using Step Functions, because it translates your workflow into a state machine diagram that is easy to understand, easy to explain to others, and easy to change. Step Functions automatically triggers and tracks each step, and retries when there are errors, so your application executes in order and as expected. With Step Functions, you can craft long-running workflows such as machine learning model training, report generation, and IT automation. You can also build high volume, short duration workflows such as IoT data ingestion, and streaming data processing.
 
-[Amazon EC2](https://aws.amazon.com/ec2/)
+[AWS Step Functions](https://aws.amazon.com/step-functions/)
 
-## Network Diagram
+## Logic Diagram
 
-![Network Diagram](aws-ec2.png)
-
-## Variables
-
-- *certificate*: Wildcard certificate, e.g., **.todosrus.com*, of certificate (assume exists) for ELB  
-- *key_name*: EC2 key pair name (assume exists)
-- *vpc_id*: Default VPC id (assume exists)
-- *zone_name*: Zone name, .e.g., *todosrus.com", to create domain name (assume exists)
+![Logic Diagram](aws-step.png)
 
 ## Resources
 
-**Security Group (SG) Inbound**
+**Lambda**
 
-| Type  | Protocol | Port Range | Source    |
-| ----- | -------- | ---------- | --------- |
-| HTTP  | TCP      | 80         | 0.0.0.0/0 |
-| ALL   | ALL      | ALL        | SG        |
-| SSH   | TCP      | 22         | 0.0.0.0/0 |
-| HTTPS | TCP      | 443        | 0.0.0.0/0 |
-
-**Security Group (SG) Outbound**
-
-| Type  | Protocol | Port Range | Destination |
-| ----- | -------- | ---------- | ----------- |
-| ALL   | ALL      | ALL        | 0.0.0.0/0   |
-
-**Target Group (TG)**
-
-Protocol: HTTP
-
-**Elastic Load Balancer (ELB) Listeners**
-
-| Listener | Rules                                               |
-| -------- | --------------------------------------------------- |
-| HTTP     | redirecting to HTTPS://#{host}:443/#{path}?#{query} |
-| HTTPS    | forwarding to TG                                    |
-
-**Zone Records**
-
-| Name                  | Type | Value     |
-| --------------------- | ---- | --------- |
-| aws-ec2.todosrus.com. | A    | ALIAS ELB |
-
-**Launch Template (LT)**
-
-AMI: Amazon Linux 2 AMI (HVM), SSD Volume Type
-
-**Auto Scaling Group**
-
-Launch Template: LT
-
-Target Group: TG
+**State Machine**
