@@ -1,4 +1,0 @@
-certificate = "*.todosrus.com"
-repository = "aws-xray"
-vpc_id = "vpc-08e20e0aecdf43626"
-zone_name = "todosrus.com"
