@@ -199,6 +199,10 @@ resource "aws_ecs_cluster" "this" {
   name = local.identifier
 }
 
+output "debug" {
+  value = data.aws_ecr_repository.this.repository_url
+}
+
 resource "aws_ecs_task_definition" "this" {
     container_definitions    = <<EOF
 [
@@ -247,6 +251,7 @@ resource "aws_ecs_service" "this" {
     }
     name                  = local.identifier
     network_configuration {
+      assign_public_ip    = true
       security_groups     = [aws_security_group.web.id]
       subnets             = data.aws_subnet_ids.this.ids
     }
