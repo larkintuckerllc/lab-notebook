@@ -11,7 +11,7 @@
 ## Variables
 
 - *certificate*: Wildcard certificate, e.g., **.todosrus.com*, of certificate (assume exists) for ELB  
-- *repository*: ECR repository for Docker image
+- *repository*: ECR repository for Docker image (assume exists)
 - *vpc_id*: Default VPC id (assume exists)
 - *zone_name*: Zone name, .e.g., *todosrus.com", to create domain name (assume exists)
 
