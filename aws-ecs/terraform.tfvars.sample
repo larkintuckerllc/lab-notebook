@@ -1,3 +1,5 @@
 certificate = "*.todosrus.com"
+region = "us-east-1"
+repository = "aws-ecs"
 vpc_id = "vpc-08e20e0aecdf43626"
 zone_name = "todosrus.com"

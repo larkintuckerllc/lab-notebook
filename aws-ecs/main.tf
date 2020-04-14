@@ -18,6 +18,10 @@ data "aws_route53_zone" "this" {
   name = "${var.zone_name}."
 }
 
+data "aws_ecr_repository" "this" {
+  name = var.repository
+}
+
 resource "aws_dynamodb_table" "this" {
   attribute {
     name = "Id"
@@ -27,10 +31,6 @@ resource "aws_dynamodb_table" "this" {
   name             = "Todos"
   read_capacity    = 1 
   write_capacity   = 1
-}
-
-data "aws_ecr_repository" "this" {
-  name = local.identifier
 }
 
 resource "aws_iam_role" "execution" {
@@ -160,4 +160,40 @@ resource "aws_lb_target_group" "this" {
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = var.vpc_id
+}
+
+resource "aws_ecs_task_definition" "this" {
+    container_definitions    = <<EOF
+[
+  {
+    "cpu": 256,
+    "environment": [
+      {
+        "name": "REGION",
+        "value": "${var.region}"
+      }
+    ],
+    "essential": true,
+    "image": "${data.aws_ecr_repository.this.repository_url}",
+    "memory": 512,
+    "mountPoints": [],
+    "name": "${local.identifier}",
+    "portMappings": [
+      {
+        "containerPort": 80,
+        "hostPort": 80,
+        "protocol": "tcp"
+      }
+    ],
+    "volumesFrom": []
+  }   
+]
+EOF
+    cpu                      = 256
+    execution_role_arn       = aws_iam_role.execution.arn
+    family                   = local.identifier
+    memory                   = 512
+    network_mode             = "awsvpc"
+    requires_compatibilities = ["FARGATE"]
+    task_role_arn            = aws_iam_role.task.arn
 }
