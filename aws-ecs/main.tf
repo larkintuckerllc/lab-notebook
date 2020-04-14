@@ -199,10 +199,6 @@ resource "aws_ecs_cluster" "this" {
   name = local.identifier
 }
 
-output "debug" {
-  value = data.aws_ecr_repository.this.repository_url
-}
-
 resource "aws_ecs_task_definition" "this" {
     container_definitions    = <<EOF
 [
