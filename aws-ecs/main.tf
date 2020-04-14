@@ -143,3 +143,21 @@ resource "aws_security_group_rule" "web_egress" {
   to_port           = 0
   type              = "egress"
 }
+
+resource "aws_lb" "this" {
+  load_balancer_type = "application"
+  name               = local.identifier
+  security_groups    = [aws_security_group.lb.id]
+  subnets            = data.aws_subnet_ids.this.ids
+}
+
+resource "aws_lb_target_group" "this" {
+  health_check {
+    path = "/hc"
+  }
+  name        = local.identifier
+  port        = 80
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = var.vpc_id
+}
