@@ -97,3 +97,49 @@ resource "aws_iam_role_policy" "task" {
 EOF
     role   = aws_iam_role.task.id
 }
+
+resource "aws_security_group" "lb" {
+  name   = "${local.identifier}.lb"
+  vpc_id = var.vpc_id
+}
+
+resource "aws_security_group" "web" {
+  name   = "${local.identifier}.web"
+  vpc_id = var.vpc_id
+}
+
+resource "aws_security_group_rule" "lb_ingress" {
+  cidr_blocks       = ["0.0.0.0/0"]
+  from_port         = 443
+  protocol          = "tcp"
+  security_group_id = aws_security_group.lb.id
+  to_port           = 443
+  type              = "ingress"
+}
+
+resource "aws_security_group_rule" "lb_egress" {
+  from_port                = 80
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.lb.id
+  source_security_group_id = aws_security_group.web.id
+  to_port                  = 80
+  type                     = "egress"
+}
+
+resource "aws_security_group_rule" "web_ingress" {
+  from_port                = 80
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.web.id
+  source_security_group_id = aws_security_group.lb.id
+  to_port                  = 80
+  type                     = "ingress"
+}
+
+resource "aws_security_group_rule" "web_egress" {
+  cidr_blocks       = ["0.0.0.0/0"]
+  from_port         = 0
+  protocol          = "-1"
+  security_group_id = aws_security_group.web.id
+  to_port           = 0
+  type              = "egress"
+}
