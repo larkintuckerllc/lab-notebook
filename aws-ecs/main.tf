@@ -6,6 +6,8 @@ locals {
   identifier = "aws-ecs"
 }
 
+data "aws_region" "this" {}
+
 data "aws_subnet_ids" "this" {
   vpc_id = var.vpc_id
 }
@@ -170,7 +172,7 @@ resource "aws_ecs_task_definition" "this" {
     "environment": [
       {
         "name": "REGION",
-        "value": "${var.region}"
+        "value": "${data.aws_region.this.name}"
       }
     ],
     "essential": true,
