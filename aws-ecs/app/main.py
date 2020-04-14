@@ -21,6 +21,10 @@ todosTable = ddb.Table('Todos')
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/hc')
+def hc():
+    return 'healthy'
+
 @app.route('/todos')
 def read():
     try:
