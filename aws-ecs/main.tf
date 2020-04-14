@@ -35,6 +35,8 @@ resource "aws_dynamodb_table" "this" {
   write_capacity   = 1
 }
 
+# IAM ROLES
+
 resource "aws_iam_role" "execution" {
   assume_role_policy = <<EOF
 {
@@ -100,6 +102,8 @@ EOF
     role   = aws_iam_role.task.id
 }
 
+# VPC SECURITY GROUPS
+
 resource "aws_security_group" "lb" {
   name   = "${local.identifier}.lb"
   vpc_id = var.vpc_id
@@ -146,12 +150,7 @@ resource "aws_security_group_rule" "web_egress" {
   type              = "egress"
 }
 
-resource "aws_lb" "this" {
-  load_balancer_type = "application"
-  name               = local.identifier
-  security_groups    = [aws_security_group.lb.id]
-  subnets            = data.aws_subnet_ids.this.ids
-}
+# EC2 Load Balancer
 
 resource "aws_lb_target_group" "this" {
   health_check {
@@ -162,6 +161,42 @@ resource "aws_lb_target_group" "this" {
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = var.vpc_id
+}
+
+resource "aws_lb" "this" {
+  load_balancer_type = "application"
+  name               = local.identifier
+  security_groups    = [aws_security_group.lb.id]
+  subnets            = data.aws_subnet_ids.this.ids
+}
+
+resource "aws_lb_listener" "this" {
+  certificate_arn    = data.aws_acm_certificate.this.arn
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.this.arn
+  }
+  load_balancer_arn  = aws_lb.this.arn
+  port               = "443"
+  protocol           = "HTTPS"
+  ssl_policy         = "ELBSecurityPolicy-2016-08"
+}
+
+resource "aws_route53_record" "this" {
+  zone_id = data.aws_route53_zone.this.id
+  name    = "${local.identifier}.todosrus.com"
+  type    = "A"
+  alias {
+    name                   = aws_lb.this.dns_name
+    zone_id                = aws_lb.this.zone_id
+    evaluate_target_health = false
+  }
+}
+
+# ECS
+
+resource "aws_ecs_cluster" "this" {
+  name = local.identifier
 }
 
 resource "aws_ecs_task_definition" "this" {
@@ -198,4 +233,22 @@ EOF
     network_mode             = "awsvpc"
     requires_compatibilities = ["FARGATE"]
     task_role_arn            = aws_iam_role.task.arn
+}
+
+resource "aws_ecs_service" "this" {
+    cluster               = aws_ecs_cluster.this.id
+    depends_on            = [aws_lb_listener.this]
+    desired_count         = 1
+    launch_type           = "FARGATE"
+    load_balancer {
+      target_group_arn = aws_lb_target_group.this.arn
+      container_name   = local.identifier
+      container_port   = 80
+    }
+    name                  = local.identifier
+    network_configuration {
+      security_groups     = [aws_security_group.web.id]
+      subnets             = data.aws_subnet_ids.this.ids
+    }
+    task_definition       = aws_ecs_task_definition.this.arn
 }
