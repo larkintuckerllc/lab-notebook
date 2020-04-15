@@ -42,6 +42,7 @@ resource "aws_subnet" "s10" {
   availability_zone       = "us-east-1a"
   cidr_block              = "10.0.10.0/24"
   tags = {
+    "kubernetes.io/cluster/${var.identifier}" = "shared"
     Name = "${var.identifier}-s10"
     Tier = "Private"
   }
@@ -52,6 +53,7 @@ resource "aws_subnet" "s11" {
   availability_zone = "us-east-1b"
   cidr_block        = "10.0.11.0/24"
   tags = {
+    "kubernetes.io/cluster/${var.identifier}" = "shared"
     Name = "${var.identifier}-s11"
     Tier = "Private"
   }
@@ -62,6 +64,7 @@ resource "aws_subnet" "s12" {
   availability_zone = "us-east-1c"
   cidr_block        = "10.0.12.0/24"
   tags = {
+    "kubernetes.io/cluster/${var.identifier}" = "shared"
     Name = "${var.identifier}-s12"
     Tier = "Private"
   }
@@ -275,4 +278,36 @@ resource "aws_network_acl" "private" {
     Name = "${var.identifier}-private"
   }
   vpc_id     = aws_vpc.this.id
+}
+
+resource "aws_security_group" "bastion" {
+  name   = "${var.identifier}-bastion"
+  vpc_id = aws_vpc.this.id
+}
+
+resource "aws_security_group_rule" "bastion_ingress_all" {
+  from_port         = 0
+  protocol          = "-1"
+  source_security_group_id = aws_security_group.bastion.id
+  security_group_id = aws_security_group.bastion.id
+  to_port           = 0
+  type              = "ingress"
+}
+
+resource "aws_security_group_rule" "bastion_ingress_ssh" {
+  cidr_blocks       = ["0.0.0.0/0"]
+  from_port         = 22
+  protocol          = "tcp"
+  security_group_id = aws_security_group.bastion.id
+  to_port           = 22
+  type              = "ingress"
+}
+
+resource "aws_security_group_rule" "bastion_egress" {
+  cidr_blocks       = ["0.0.0.0/0"]
+  from_port         = 0
+  protocol          = "-1"
+  security_group_id = aws_security_group.bastion.id
+  to_port           = 0
+  type              = "egress"
 }

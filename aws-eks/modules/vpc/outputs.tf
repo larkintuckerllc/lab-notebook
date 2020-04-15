@@ -28,3 +28,7 @@ output "private_subnet_ids" {
     aws_subnet.s12.id
   ]
 }
+
+output "bastion_security_group_id" {
+  value = aws_security_group.bastion.id
+}
