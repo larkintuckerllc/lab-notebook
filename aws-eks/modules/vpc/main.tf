@@ -10,6 +10,8 @@ resource "aws_subnet" "s0" {
   cidr_block              = "10.0.0.0/24"
   map_public_ip_on_launch = true
   tags = {
+    "kubernetes.io/cluster/${var.identifier}" = "shared"
+    "kubernetes.io/role/elb" = "1"
     Name = "${var.identifier}-s0"
     Tier = "Public"
   }
@@ -21,6 +23,8 @@ resource "aws_subnet" "s1" {
   cidr_block        = "10.0.1.0/24"
   map_public_ip_on_launch = true
   tags = {
+    "kubernetes.io/cluster/${var.identifier}" = "shared"
+    "kubernetes.io/role/elb" = "1"
     Name = "${var.identifier}-s1"
     Tier = "Public"
   }
@@ -32,6 +36,8 @@ resource "aws_subnet" "s2" {
   cidr_block        = "10.0.2.0/24"
   map_public_ip_on_launch = true
   tags = {
+    "kubernetes.io/cluster/${var.identifier}" = "shared"
+    "kubernetes.io/role/elb" = "1"
     Name = "${var.identifier}-s2"
     Tier = "Public"
   }
@@ -43,6 +49,7 @@ resource "aws_subnet" "s10" {
   cidr_block              = "10.0.10.0/24"
   tags = {
     "kubernetes.io/cluster/${var.identifier}" = "shared"
+    "kubernetes.io/role/internal-elb" = "1"
     Name = "${var.identifier}-s10"
     Tier = "Private"
   }
@@ -54,6 +61,7 @@ resource "aws_subnet" "s11" {
   cidr_block        = "10.0.11.0/24"
   tags = {
     "kubernetes.io/cluster/${var.identifier}" = "shared"
+    "kubernetes.io/role/internal-elb" = "1"
     Name = "${var.identifier}-s11"
     Tier = "Private"
   }
@@ -65,6 +73,7 @@ resource "aws_subnet" "s12" {
   cidr_block        = "10.0.12.0/24"
   tags = {
     "kubernetes.io/cluster/${var.identifier}" = "shared"
+    "kubernetes.io/role/internal-elb" = "1"
     Name = "${var.identifier}-s12"
     Tier = "Private"
   }
