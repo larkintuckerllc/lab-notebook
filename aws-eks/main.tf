@@ -6,23 +6,10 @@ locals {
   identifier = "aws-eks"
 }
 
-data "aws_subnet" "a" {
-  availability_zone = "us-east-1a"
+module "vpc" {
+  source = "./modules/vpc"
+  identifier = local.identifier
 }
-
-data "aws_subnet" "b" {
-  availability_zone = "us-east-1b"
-}
-
-/*
-data "aws_acm_certificate" "this" {
-  domain  = var.certificate
-}
-
-data "aws_route53_zone" "this" {
-  name = "${var.zone_name}."
-}
-*/
 
 resource "aws_iam_role" "eks_service" {
   assume_role_policy = <<EOF
@@ -54,7 +41,7 @@ resource "aws_iam_role_policy_attachment" "eks_service_cluster" {
 
 resource "aws_security_group" "cluster" {
   name   = "${local.identifier}-cluster"
-  vpc_id = var.vpc_id
+  vpc_id = module.vpc.vpc_id
 }
 
 resource "aws_security_group_rule" "cluster_ingress" {
@@ -84,9 +71,6 @@ resource "aws_eks_cluster" "this" {
   role_arn = aws_iam_role.eks_service.arn
   vpc_config {
     security_group_ids = [aws_security_group.cluster.id]
-    subnet_ids = [
-      data.aws_subnet.a.id,
-      data.aws_subnet.b.id
-    ]
+    subnet_ids = module.vpc.subnet_ids
   }
 }
