@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 locals {
-  identifier = "aws-ec2"
+  identifier = "aws-eks"
 }
 
 data "aws_subnet_ids" "this" {
