@@ -2,6 +2,9 @@ provider "aws" {
   region = "us-east-1"
 }
 
+data "aws_region" "this" {
+}
+
 locals {
   identifier = "aws-eks"
 }
