@@ -6,7 +6,7 @@
 
 ## Network Diagram
 
-![Network Diagram](aws-ecs.png)
+![Network Diagram](aws-eks.png)
 
 ## Resources
 
