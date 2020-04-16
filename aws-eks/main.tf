@@ -154,9 +154,14 @@ resource "aws_eks_node_group" "this" {
 
 # IAM ROLES FOR SERVICE ACOUNTS (default:api)
 
+# HACK: https://github.com/terraform-providers/terraform-provider-aws/issues/10104
+data "external" "thumbprint" {
+  program = ["sh", "thumbprint.sh", data.aws_region.this.name]
+}
+
 resource "aws_iam_openid_connect_provider" "this" {
   client_id_list  = ["sts.amazonaws.com"]
-  thumbprint_list = []
+  thumbprint_list = [data.external.thumbprint.result.thumbprint]
   url             = aws_eks_cluster.this.identity.0.oidc.0.issuer
 }
 
