@@ -57,4 +57,20 @@ docker push 143287522423.dkr.ecr.us-east-1.amazonaws.com/aws-eks-hello-world:lat
 ```
 
 
+```
+docker build -t aws-eks-api -f Dockerfile-api .
+```
 
+Tag image for ECR repository:
+
+```
+docker tag aws-eks-api:latest 143287522423.dkr.ecr.us-east-1.amazonaws.com/aws-eks-api:latest
+```
+
+Push image to ECR repository:
+
+```
+docker push 143287522423.dkr.ecr.us-east-1.amazonaws.com/aws-eks-api:latest
+```
+
+aws eks describe-cluster --name aws-eks --query "cluster.identity.oidc.issuer" --output text

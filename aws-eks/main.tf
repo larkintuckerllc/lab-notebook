@@ -11,6 +11,17 @@ module "vpc" {
   identifier = local.identifier
 }
 
+resource "aws_dynamodb_table" "this" {
+  attribute {
+    name = "Id"
+    type = "S"
+  }
+  hash_key         = "Id"
+  name             = "Todos"
+  read_capacity    = 1
+  write_capacity   = 1
+}
+
 # ROLES
 
 resource "aws_iam_role" "eks_service" {
