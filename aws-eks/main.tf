@@ -148,3 +148,55 @@ resource "aws_eks_node_group" "this" {
     Name = local.identifier
   }
 }
+
+# IAM ROLES FOR SERVICE ACOUNTS (default:api)
+
+resource "aws_iam_openid_connect_provider" "this" {
+  client_id_list  = ["sts.amazonaws.com"]
+  thumbprint_list = []
+  url             = aws_eks_cluster.this.identity.0.oidc.0.issuer
+}
+
+data "aws_iam_policy_document" "this" {
+  statement {
+    actions = ["sts:AssumeRoleWithWebIdentity"]
+    condition {
+      test     = "StringEquals"
+      variable = "${replace(aws_iam_openid_connect_provider.this.url, "https://", "")}:sub"
+      values   = ["system:serviceaccount:default:api"]
+    }
+    effect  = "Allow"
+    principals {
+      identifiers = ["${aws_iam_openid_connect_provider.this.arn}"]
+      type        = "Federated"
+    }
+  }
+}
+
+resource "aws_iam_role" "api" {
+  assume_role_policy = data.aws_iam_policy_document.this.json
+  name               = "${local.identifier}-APIRole"
+}
+
+resource "aws_iam_role_policy" "api_dynamodb_write" {
+  name = "DynamoDBWrite"
+  role = aws_iam_role.api.id
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:PutItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:Scan"
+            ],
+            "Resource": "${aws_dynamodb_table.this.arn}"
+        }
+    ]
+}
+  EOF
+}
