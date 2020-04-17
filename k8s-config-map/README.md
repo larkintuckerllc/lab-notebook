@@ -46,6 +46,28 @@ kubectl describe configmap example
 
 **note**: Keep *example* for next section.
 
+**ConfigMap Used in Container Command**
+
+Create Pod:
+
+```
+kubectl apply -f command.yml
+```
+
+Log containter output:
+
+```
+kubectl logs pod/command
+```
+
+Clean-up
+
+```
+kubectl delete -f command.yml
+```
+
+**note**: Keep *example* for next section.
+
 **ConfigMap Used in Container Environment**
 
 Create Pod:
@@ -70,9 +92,6 @@ Clean-up
 
 ```
 kubectl delete -f environment.yml
+kubectl delete configmap example
 ```
-
-**note**: Keep *example* for next section.
-
-**ConfigMap Used in Container Command**
 

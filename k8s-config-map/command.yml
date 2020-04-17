@@ -6,5 +6,11 @@ spec:
   containers:
     - name: busybox
       image: busybox
-      command: ['sh', '-c', 'echo Hello World']
+      command: ['sh', '-c', 'echo Hello $(A)']
+      env:
+        - name: A
+          valueFrom:
+            configMapKeyRef:
+              name: example
+              key: A
   restartPolicy: Never
