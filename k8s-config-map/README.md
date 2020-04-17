@@ -1,8 +1,8 @@
 # Kubernetes ConfigMap
 
-> 
+> ConfigMaps allow you to decouple configuration artifacts from image content to keep containerized applications portable. 
 
-[]()
+[Configure a Pod to Use a ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#define-container-environment-variables-using-configmap-data)
 
 ## Commands
 
@@ -200,3 +200,45 @@ Clean-up
 kubectl delete -f file-system.yml
 kubectl delete configmap example
 ```
+
+**ConfigMap with Key-Value Entries (Configuration File)**
+
+Create ConfigMap
+
+```
+kubectl apply -f fruit.yml
+```
+
+Describe ConfigMap
+
+```
+kubectl describe configmap example
+```
+
+Clean-up
+
+```
+kubectl delete configmap example
+```
+
+**ConfigMap with Key-Value Entries (ConfigMapGenerator)**
+
+Create ConfigMap
+
+```
+kubectl apply -k .
+```
+
+Describe ConfigMap
+
+```
+kubectl describe configmap
+```
+
+Clean-up
+
+```
+kubectl delete configmap example-b9b8ftm6d8
+```
+
+**note:**: Suffix will vary.
