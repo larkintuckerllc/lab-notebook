@@ -95,3 +95,44 @@ kubectl delete -f environment.yml
 kubectl delete configmap example
 ```
 
+**ConfigMap with File Entries (Files)**
+
+Create ConfigMap
+
+```
+kubectl create configmap example \
+  --from-file=fruit=fruit.env \
+  --from-file=dogs=dogs.env
+```
+
+Describe ConfigMap
+
+```
+kubectl describe configmap example
+```
+
+Clean-up
+
+```
+kubectl delete configmap example
+```
+
+**ConfigMap with File Entries (Directory)**
+
+Create ConfigMap
+
+```
+kubectl create configmap example \
+  --from-file=config
+```
+
+Describe ConfigMap
+
+```
+kubectl describe configmap example
+```
+
+**note**: Keep *example* for next section.
+
+**ConfigMap Used in Container File System**
+
