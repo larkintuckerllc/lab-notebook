@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: environment
+spec:
+  containers:
+    - name: busybox
+      image: busybox
+      command: ['tail', '-f', '/dev/null']
+      envFrom:
+        - configMapRef:
+            name: example
