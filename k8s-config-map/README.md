@@ -136,3 +136,27 @@ kubectl describe configmap example
 
 **ConfigMap Used in Container File System**
 
+Create Pod:
+
+```
+kubectl apply -f file-system.yml
+```
+
+Login to Container:
+
+```
+kubectl exec -it pod/file-system -- /bin/sh
+```
+
+Use in file system:
+
+```
+cat /etc/config/fruit
+```
+
+Clean-up
+
+```
+kubectl delete -f file-system.yml
+kubectl delete configmap example
+```
