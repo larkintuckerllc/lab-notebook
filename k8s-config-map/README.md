@@ -160,3 +160,43 @@ Clean-up
 kubectl delete -f file-system.yml
 kubectl delete configmap example
 ```
+
+**ConfigMap with File Entries (JSON File) and Used in Container File System**
+
+Create ConfigMap
+
+```
+kubectl create configmap example \
+  --from-file=fruit.json 
+```
+
+Describe ConfigMap
+
+```
+kubectl describe configmap example
+```
+
+Create Pod:
+
+```
+kubectl apply -f file-system.yml
+```
+
+Login to Container:
+
+```
+kubectl exec -it pod/file-system -- /bin/sh
+```
+
+Use in file system:
+
+```
+cat /etc/config/fruit.json
+```
+
+Clean-up
+
+```
+kubectl delete -f file-system.yml
+kubectl delete configmap example
+```
