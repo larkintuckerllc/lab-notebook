@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: empty-dir
+spec:
+  containers:
+    - name: busybox-a
+      image: busybox
+      command: ['tail', '-f', '/dev/null']
+      volumeMounts:
+        - mountPath: /cache
+          name: cache
+    - name: busybox-b
+      image: busybox
+      command: ['tail', '-f', '/dev/null']
+      volumeMounts:
+        - mountPath: /cache
+          name: cache
+  volumes:
+    - name: cache
+      emptyDir: {}
