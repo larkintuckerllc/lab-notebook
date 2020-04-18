@@ -31,3 +31,12 @@ ls /disk
 
 kubectl delete -f persistent-volume.yml
 
+**Persistent Volume Many**
+
+kubectl apply -f persistent-volume-many.yml
+
+Repeat above for:
+pod/persistent-volume-many-a
+pod/persistent-volume-many-b
+
+kubectl delete -f persistent-volume-many.yml

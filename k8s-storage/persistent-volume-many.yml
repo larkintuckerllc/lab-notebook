@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: disk-many
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: microk8s-hostpath
+  resources:
+    requests:
+      storage: 50M
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: persistent-volume-many-a
+spec:
+  containers:
+    - name: busybox
+      image: busybox
+      command: ['tail', '-f', '/dev/null']
+      volumeMounts:
+        - mountPath: /disk
+          name: disk
+  volumes:
+    - name: disk
+      persistentVolumeClaim:
+        claimName: disk-many
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: persistent-volume-many-b
+spec:
+  containers:
+    - name: busybox
+      image: busybox
+      command: ['tail', '-f', '/dev/null']
+      volumeMounts:
+        - mountPath: /disk
+          name: disk
+  volumes:
+    - name: disk
+      persistentVolumeClaim:
+        claimName: disk-many
+
