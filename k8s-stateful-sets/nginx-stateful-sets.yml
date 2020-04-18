@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-stateful-sets 
+spec:
+  clusterIP: None
+  selector:
+    app: web
+  ports:
+    - port: 80
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx-stateful-sets
+spec:
+  serviceName: web
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: html
+              mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+    - metadata:
+        name: html
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: microk8s-hostpath
+        resources:
+          requests:
+            storage: 50M
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-pod
+  labels:
+    app: ubuntu
+spec:
+  containers:
+  - name: ubuntu
+    image: ubuntu
+    command: ['tail', '-f', '/dev/null']
+
