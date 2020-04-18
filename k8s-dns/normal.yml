@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: nginx
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+      - containerPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-pod
+  labels:
+    app: ubuntu
+spec:
+  containers:
+  - name: ubuntu
+    image: ubuntu
+    command: ['tail', '-f', '/dev/null']
+
