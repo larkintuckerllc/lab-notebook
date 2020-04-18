@@ -18,4 +18,19 @@ Lookup *web* service
 ```
 nslookup web
 dig web.default.svc.cluster.local
+dig _http._tcp.web.default.svc.cluster.local SRV
+dig nginx.web.default.svc.cluster.local
+```
+
+**Service (Headless)**
+
+```
+kubectl apply -f headless.yml
+```
+
+Same as above; except:
+
+```
+dig nginx-0.web.default.svc.cluster.local
+dig nginx-1.web.default.svc.cluster.local
 ```

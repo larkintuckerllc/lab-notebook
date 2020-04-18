@@ -3,25 +3,44 @@ kind: Service
 metadata:
   name: web
 spec:
+  clusterIP: None
   ports:
   - port: 80
+    name: http
   selector:
     app: nginx
 ---
 apiVersion: v1
 kind: Pod
 metadata:
-  name: nginx
+  name: nginx-0
   labels:
     app: nginx
 spec:
-  hostname: nginx
+  hostname: nginx-0
   subdomain: web
   containers:
   - name: nginx
     image: nginx
     ports:
       - containerPort: 80
+        name: http
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-1
+  labels:
+    app: nginx
+spec:
+  hostname: nginx-1
+  subdomain: web
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+      - containerPort: 80
+        name: http
 ---
 apiVersion: v1
 kind: Pod
