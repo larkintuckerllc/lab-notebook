@@ -34,3 +34,5 @@ Same as above; except:
 dig nginx-0.web.default.svc.cluster.local
 dig nginx-1.web.default.svc.cluster.local
 ```
+
+**note:**: In order for Pod DNS entries to be created, the *subdomain* needed to match the *Service* name, e.g., *web*.
