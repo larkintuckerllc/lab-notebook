@@ -21,7 +21,7 @@ ls /cache
 kubectl delete -f empty-dir.yml
 ```
 
-**Persistent Volume**
+**Persistent Volume (Dynamic)**
 
 ```
 kubectl apply -f persistent-volume.yml
@@ -41,7 +41,7 @@ ls /disk
 kubectl delete -f persistent-volume.yml
 ```
 
-**Persistent Volume Many**
+**Persistent Volume Many (Dynamic)**
 
 ```
 kubectl apply -f persistent-volume-many.yml
@@ -55,3 +55,15 @@ Repeat above for:
 ```
 kubectl delete -f persistent-volume-many.yml
 ```
+
+**AWS EBS Peristent Volume (Dynamic)**
+
+**note:** Use eksctl to create EKS cluster as the *aws-eks* example has a subtle issue.
+
+Follow instructions in [How do I use persistent storage in Amazon EKS?](https://aws.amazon.com/premiumsupport/knowledge-center/eks-persistent-storage/)
+
+```
+kubectl apply -f aws-persistent-volume
+```
+
+
