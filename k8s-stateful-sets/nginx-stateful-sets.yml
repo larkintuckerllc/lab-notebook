@@ -1,58 +1,57 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: funky
+  name: web
 spec:
-  ports:
-  - port: 80
-    name: web
   clusterIP: None
+  ports:
+    - port: 80
+      name: http
   selector:
     app: nginx
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: web
+  name: nginx
 spec:
-  serviceName: "funky"
   replicas: 2
   selector:
     matchLabels:
       app: nginx
+  serviceName: web
   template:
     metadata:
       labels:
         app: nginx
     spec:
-      subdomain: funky
       containers:
-      - name: nginx
-        image: k8s.gcr.io/nginx-slim:0.8
-        ports:
-        - containerPort: 80
-          name: web
-        volumeMounts:
-        - name: www
-          mountPath: /usr/share/nginx/html
+        - image: nginx
+          name: nginx
+          ports:
+            - containerPort: 80
+              name: http
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html
+              name: html
+      subdomain: web
   volumeClaimTemplates:
-  - metadata:
-      name: www
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: microk8s-hostpath
-      resources:
-        requests:
-          storage: 1Gi
+    - metadata:
+        name: html
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: microk8s-hostpath
 ---
 apiVersion: v1
 kind: Pod
 metadata:
   name: ubuntu-pod
-  labels:
-    app: ubuntu
 spec:
   containers:
-  - name: ubuntu
-    image: ubuntu
-    command: ['tail', '-f', '/dev/null']
+    - command: ['tail', '-f', '/dev/null']
+      image: ubuntu
+      name: ubuntu
