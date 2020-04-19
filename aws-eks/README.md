@@ -2,6 +2,8 @@
 
 > Amazon Elastic Kubernetes Service (Amazon EKS) is a fully managed Kubernetes service. Customers such as Intel, Snap, Intuit, GoDaddy, and Autodesk trust EKS to run their most sensitive and mission critical applications because of its security, reliability, and scalability.
 
+**note:**: Seems to be a subtle issue with the security groups that manifested when using EBS and PersistentVolumes. TODO: Fix is to run eksctl to create representative configuration and replicate.
+
 [Amazon Elastic Kubernetes Service](https://aws.amazon.com/eks/)
 
 ## Network Diagram
