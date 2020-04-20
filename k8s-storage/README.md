@@ -66,4 +66,10 @@ Follow instructions in [How do I use persistent storage in Amazon EKS?](https://
 kubectl apply -f aws-persistent-volume
 ```
 
+Here you need to create an EBS volume and provide configuration the volume id.
+
+```
+kubectl apply -f aws-persistent-volume-static
+```
+
 
