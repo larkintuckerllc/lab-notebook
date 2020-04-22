@@ -1,0 +1,4 @@
+commonLabels:
+  release: a
+resources:
+- cluster-ip.yaml

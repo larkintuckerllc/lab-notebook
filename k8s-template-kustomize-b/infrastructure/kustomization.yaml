@@ -1,0 +1,4 @@
+commonLabels:
+  release: b
+resources:
+- deployment.yaml

@@ -4,7 +4,6 @@ metadata:
   name: api
   labels:
     app: api
-    release: b
 spec:
   replicas: 2
   selector:
@@ -14,7 +13,6 @@ spec:
     metadata:
       labels:
         app: api
-        release: b
     spec:
       containers:
         - name: app

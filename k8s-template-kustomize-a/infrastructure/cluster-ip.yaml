@@ -4,7 +4,6 @@ metadata:
   name: api
   labels:
     app: api
-    release: a
 spec:
   selector:
     app: api
