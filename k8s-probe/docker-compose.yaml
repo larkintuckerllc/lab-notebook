@@ -1,6 +1,12 @@
 version: '2.0'
 services:
   redis:
+    command: redis-server --appendonly yes
     image: redis
     ports:
-    - "6379:6379"
+      - "6379:6379"
+    volumes:
+      - data:/data
+volumes:
+  data: {}
+
