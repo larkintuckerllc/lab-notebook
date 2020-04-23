@@ -16,7 +16,16 @@ spec:
         release: {{ .Release.Name }}
     spec:
       containers:
-        - name: redis
+        - command: ['redis-server', '--appendonly', 'yes']
+          name: redis
           image: redis
           ports:
             - containerPort: 6379
+          volumeMounts:
+            - mountPath: /data
+              name: data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ printf "%s-%s" .Chart.Name .Release.Name }}
+
