@@ -23,4 +23,9 @@ spec:
           image: {{ .Values.image }}
           ports:
             - containerPort: 80
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /probe
+              port: http
 
