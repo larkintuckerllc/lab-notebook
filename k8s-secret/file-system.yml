@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: file-system
+spec:
+  containers:
+    - name: busybox
+      image: busybox
+      command: ['tail', '-f', '/dev/null']
+      volumeMounts:
+      - name: secret
+        mountPath: /etc/secret
+  volumes:
+    - name: secret
+      secret:
+        secretName: secret
+

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: command
+spec:
+  containers:
+    - name: busybox
+      image: busybox
+      command: ['sh', '-c', 'echo Hello $A']
+      env:
+        - name: A
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: a
+  restartPolicy: Never
