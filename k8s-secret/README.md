@@ -14,7 +14,7 @@ Create Secret
 kubectl apply -f secret.yaml
 ```
 
-Describe ConfigMap:
+Describe Secret:
 
 ```
 kubectl describe secret secret
